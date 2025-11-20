@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Allotment History</title>
+  <link rel="stylesheet" href="/Style/dashboard.css">
+  <link rel="stylesheet" href="/Style/book_management.css">
+  <link rel="stylesheet" href="/Style/book_allotment.css">
+  <link rel="stylesheet" href="/Style/allotment_history.css">
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+
+  <div class="container">
+    <!-- Hamburger checkbox -->
+    <input type="checkbox" id="sidebar-toggle" hidden>
+
+    <!-- Overlay -->
+    <label for="sidebar-toggle" class="overlay"></label>
+
+    <!-- Header with hamburger -->
+    <header class="header-bar">
+      <label for="sidebar-toggle" class="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </label>
+    </header>
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">
+          <img src="/image/library.jpg" alt="Library Image">
+        </div>
+        <div>
+          <h2>BookNest</h2>
+          <p>Your Library, Anytime</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="book_allotment"><i class="fa-solid fa-book-open-reader"></i> Books Allotment</a>
+        <div class="dropdown">
+          <a href="book_management" class="dropdown-toggle">
+            <i class="fa-solid fa-book"></i> Books Management
+            <i class="fa-solid fa-chevron-down arrow"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="book_management"><i class="fa-solid fa-pen-to-square"></i> Manage Books</a></li>
+            <li><a href="allotment_history"><i class="fa-solid fa-clock-rotate-left"></i> Allotment History</a>
+            </li>
+            <li><a href="submission"><i class="fa-solid fa-bookmark"></i> Submission</a></li>
+            <li><a href="cart"><i class="fa-solid fa-shopping-cart"></i>Cart</a></li>
+          </ul>
+        </div>
+
+        <a href="student_management"><i class="fa-solid fa-user-graduate"></i> Student Management</a>
+        <a href="purchase_books"><i class="fa-solid fa-cart-shopping"></i> Purchase Books</a>
+        <a href="vendor_management"><i class="fa-solid fa-store"></i> Vendor Management</a>
+        <a href="publication"><i class="fa-solid fa-newspaper"></i> Publications</a>
+        <a href="subscription"><i class="fa-solid fa-credit-card"></i> Subscription Type</a>
+        <!-- <a href="#"><i class="fa-solid fa-file-lines"></i> Reports</a> -->
+        <a href="profile"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </nav>
+    </aside>
+
+    <div class="main">
+      <div class="container">
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+          <span><i class="fa-solid fa-house"></i> / Book allotment History</span>
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-container">
+          <div class="table-top">
+            <div class="left-controls">
+<!--              <button class="filter-btn" id="filterBtn"><i class="fa-solid fa-filter"></i> Filters</button>-->
+              <a th:href="@{/exportBookAllotmentHisotyPdf}" style="text-decoration: none"><i class="fa-solid fa-file-export"></i> Export</a>
+            </div>
+            <div class="search-wrapper">
+
+              <a href="allotment_history" type="submit" id="refresh" class="ok-btn" style="text-decoration: none">Refresh</a>
+              <br>
+
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchInput" class="search-bar" placeholder="Search Book...">
+            </div>
+          </div>
+
+          <!-- Filter Popup -->
+          <div class="filter-popup" id="filterPopup">
+            <div class="filter-popup-header">
+              <strong>Filter Options</strong>
+              <button id="closePopup">&times;</button>
+            </div>
+
+            <label for="column">Filter by</label>
+            <select id="column">
+              <option value="title">Title</option>
+              <option value="price">Quantity</option>
+            </select>
+
+            <label for="order">Order</label>
+            <select id="order">
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+
+            <button class="apply-btn" id="applyFilter">Apply Filter</button>
+          </div>
+
+
+          <!-- <h2><i class="fa-solid fa-book-open"></i> Student Book Purchase Details</h2> -->
+
+          <table class="book-table">
+            <thead>
+              <tr>
+                <th>s.No.</th>
+                <th>Student Name</th>
+                <th>Student Email</th>
+                <th>Book Name</th>
+                <th>Quantity</th>
+                <th>Paid Amount</th>
+                <th>Invoice</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="a , si : ${allotmentHistory}">
+                <td th:text="${si.index+1}" >1</td>
+                <td th:text="${a.studentName}">Smita</td>
+                <td th:text="${a.email}">smita@test.com</td>
+                <td th:text="${a.title}">Harper Lee, Harper Lee</td>
+                <td th:text="${a.quantity}">2</td>
+                <td th:text="${a.quantity} * ${a.amount}">₹600.00</td>
+                <td>
+                  <form method="get" th:action="@{/allotment_history}">
+                    <input type="hidden" name="invoiceId" th:value="${a.id}">
+                  <button id="invoiceOpen" class="fa-solid fa-file-invoice"></button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- Invoice Modal -->
+    <div class="invoice-modal" id="invoiceModal" th:classappend="${invoiceMode} ? 'open':''">
+      <div class="invoice-content">
+        <span class="close-btn" id="closeModal"><a href="allotment_history" style="text-decoration: none"> &times;</a></span>
+        <div class="invoice-header">
+          <img src="/Image/library.jpg" alt="Library Logo">
+          <div class="invoice-header-text">
+            <h2 class="title">BookNest</h2>
+          </div>
+        </div>
+        <p class="date">Date: <span th:text="${currentDate}" > November 13, 2025 </span></p>
+
+        <h4>Student Information</h4>
+        <div class="info">
+          <p><strong>Name:</strong><span th:text="${studentName}">Smita</span></p>
+          <p><strong>Email:</strong><span th:text="${studentEmail}"> smita@test.com</span></p>
+          <p><strong>Phone:</strong><span th:text="${studentPhoneNumber}"> 9087654321</span></p>
+        </div>
+
+        <h4>Book Information</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Book Name</th>
+              <th>Quantity</th>
+              <th>Issue Date</th>
+              <th>Expected Submission</th>
+              <th>Subscription Type</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td th:text="${bookName}">A Story of Yest</td>
+              <td th:text="${quantity}">1</td>
+              <td th:text="${IssueDate}">12/11/25, 09:02 PM</td>
+              <td th:text="${submissionDate}">12/12/2025</td>
+              <td th:text="${subscriptionType}">Monthly</td>
+              <td th:text="${totalAmount}">$500</td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="print-btn" onclick="window.print()">Print</button>
+      </div>
+    </div>
+
+
+  </div>
+  <script src="/Js/sidebar.js" defer></script>
+  <script src="/Js/book_management.js" defer></script>
+  <script src="/Js/allotment_history.js" defer></script>
+
+</body>
+
+</html>

@@ -1,0 +1,426 @@
+/* ======================================================
+   SUBSCRIPTION PAGE — MATCHING THE MODERN ORANGE THEME
+====================================================== */
+
+.main {
+  padding: 25px 30px;
+  background: #f4f4f4;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+/* Breadcrumb */
+.subscription-breadcrumb {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.subscription-breadcrumb i {
+  color: #ff7b00;
+}
+
+/* Header Section */
+.subscription-header {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 18px;
+}
+
+.subscription-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.4rem;
+}
+
+.add-sub-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #ff7b00, #ff9933);
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.add-sub-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #e36f00, #ff8800);
+}
+
+/* Toolbar (Columns, Filters, Export, Search) */
+.subscription-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.subscription-toolbar .tool-btn {
+  background: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  color: #333;
+  font-size: 0.9rem;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.subscription-toolbar .tool-btn:hover {
+  background: #fff7ef;
+  border-color: #ff7b00;
+}
+
+.subscription-toolbar .search-box {
+  margin-left: auto;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 220px;
+}
+
+/* ================= TABLE ===================== */
+
+.subscription-table-container {
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  overflow: auto;
+  max-height: 550px;
+}
+
+.subscription-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.subscription-table thead {
+  background: #f8f8f8;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.subscription-table th,
+.subscription-table td {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.subscription-table tbody tr:hover {
+  background: #fff7ef;
+}
+
+/* Action Icons */
+.subscription-table .action-icons i {
+  font-size: 1.1rem;
+  margin-right: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.subscription-table .action-icons .edit {
+  color: #ff7b00;
+}
+
+.subscription-table .action-icons .edit:hover {
+  transform: scale(1.15);
+  color: #e36f00;
+}
+
+.subscription-table .action-icons .delete {
+  color: #c0392b;
+}
+
+.subscription-table .action-icons .delete:hover {
+  transform: scale(1.15);
+  color: #a2231a;
+}
+
+
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  width: 240px;
+}
+
+.search-wrapper i {
+  color: #ff7b00;
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.search-bar {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.ok-btn {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: 0.3s ease;
+  margin-right: 10px;
+}
+
+
+.ok-btn {
+  background: linear-gradient(135deg, #ff7b00, #ff9933);
+  color: #fff;
+}
+
+
+
+
+#alertBox {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 5px;
+  font-family: sans-serif;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  z-index: 1000;
+  color: white;
+}
+
+/* Success & Error colors */
+#alertBox.success {
+  background-color: #4caf50; /* green */
+}
+#alertBox.error {
+  background-color: #f44336; /* red */
+}
+
+#alertBox.hide {
+  opacity: 0;
+}
+
+
+
+
+
+/*=======Modal===============*/
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.35);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+  padding: 2rem 0;
+  overflow-y: auto;
+}
+
+.modal.open {
+  display: flex !important;
+}
+
+/* Modal container with glass effect */
+.modal-content {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 2rem 2.5rem;
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  color: #222;
+  font-family: 'Roboto', sans-serif;
+  margin: auto;
+  animation: slideUp 0.35s ease; /* Added animation for consistency */
+}
+
+/* Close button (top-right corner) */
+.close-btn {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  font-size: 1.6rem;
+  color: #ff7b00;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+  border: none;
+  background: transparent;
+  line-height: 1;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  color: #e36f00;
+  transform: rotate(90deg);
+}
+
+/* Modal heading */
+.modal-content h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff7b00;
+  text-shadow: 0 0 8px rgba(255, 123, 0, 0.6);
+  text-align: center;
+}
+
+/* Form labels */
+.modal-content label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #444;
+  text-align: left;
+}
+
+/* Inputs, selects, textareas */
+/* Using :not() for better generality and excluding controls like radio/checkbox */
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 1.3rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.4);
+  color: #222;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Focus effect */
+.modal-content input:focus,
+.modal-content select:focus {
+  border-color: #ff7b00;
+  box-shadow: 0 0 12px rgba(255, 123, 0, 0.7);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+/* Placeholder Visibility in Modals */
+.modal-content input::placeholder,
+.modal-content input::-webkit-input-placeholder,
+.modal-content input:-ms-input-placeholder,
+.modal-content input::-moz-placeholder {
+  color: #666;
+  opacity: 0.9;
+}
+
+/* Buttons container */
+.modal-content button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+
+/* Submit/Save button */
+.save-btn {
+  background: linear-gradient(135deg, #ff7b00, #ff9933);
+  color: white;
+  box-shadow: 0 6px 12px rgba(255, 123, 0, 0.5);
+  margin-right: 1rem;
+}
+
+.save-btn:hover {
+  background: linear-gradient(135deg, #e36f00, #ff8800);
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 123, 0, 0.8);
+}
+
+/* Cancel button */
+abtn{
+  background: rgba(255, 255, 255, 0.45);
+  color: #444;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+abtn:hover {
+  background: rgba(255, 255, 255, 0.7);
+  color: #ff7b00;
+  border-color: #ff7b00;
+  box-shadow: 0 0 8px rgba(255, 123, 0, 0.8);
+  transform: scale(1.05);
+}
+
+
+/* ======= Responsive Adjustments ======= */
+
+@media (max-width: 992px) {
+  .main {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .subscription-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .subscription-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .subscription-toolbar .search-box {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .main {
+    padding: 15px;
+  }
+
+  .subscription-table {
+    min-width: 700px;
+  }
+}

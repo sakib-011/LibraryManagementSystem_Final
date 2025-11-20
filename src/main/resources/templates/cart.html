@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management</title>
+    <link rel="stylesheet" href="/Style/book_management.css">
+    <link rel="stylesheet" href="/Style/dashboard.css">
+    <link rel="stylesheet" href="/Style/cart.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+
+<body>
+    <div class="container">
+        
+    <!-- Hamburger checkbox -->
+    <input type="checkbox" id="sidebar-toggle" hidden>
+
+    <!-- Overlay -->
+    <label for="sidebar-toggle" class="overlay"></label>
+
+    <!-- Header with hamburger -->
+    <header class="header-bar">
+      <label for="sidebar-toggle" class="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </label>
+    </header>
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">
+          <img src="/image/library.jpg" alt="Library Image">
+        </div>
+        <div>
+          <h2>BookNest</h2>
+          <p>Your Library, Anytime</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="book_allotment"><i class="fa-solid fa-book-open-reader"></i> Books Allotment</a>
+        <div class="dropdown">
+          <a href="book_management" class="dropdown-toggle">
+            <i class="fa-solid fa-book"></i> Books Management
+            <i class="fa-solid fa-chevron-down arrow"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="book_management"><i class="fa-solid fa-pen-to-square"></i> Manage Books</a></li>
+            <li><a href="allotment_history"><i class="fa-solid fa-clock-rotate-left"></i> Allotment History</a>
+            </li>
+            <li><a href="submission"><i class="fa-solid fa-bookmark"></i> Submission</a></li>
+              <li><a href="cart"><i class="fa-solid fa-shopping-cart"></i>Cart</a></li>
+          </ul>
+        </div>
+
+        <a href="student_management"><i class="fa-solid fa-user-graduate"></i> Student Management</a>
+        <a href="purchase_books"><i class="fa-solid fa-cart-shopping"></i> Purchase Books</a>
+        <a href="vendor_management"><i class="fa-solid fa-store"></i> Vendor Management</a>
+        <a href="publication"><i class="fa-solid fa-newspaper"></i> Publications</a>
+        <a href="subscription"><i class="fa-solid fa-credit-card"></i> Subscription Type</a>
+        <!-- <a href="#"><i class="fa-solid fa-file-lines"></i> Reports</a> -->
+        <a href="profile"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </nav>
+    </aside>lass="sidebar">
+    <div class="brand">
+      <div class="logo">
+        <img class="titleImg"src="/image/library.jpg" alt="Library Image">
+      </div>
+      <div>
+        <h2 class="title">BookNest</h2>
+        <p class="title2">Your Library, Anytime</p>
+      </div>
+    </div>
+
+        <div class="main">
+
+
+            <div id="alertBox"
+                 th:if="${alertMessage}"
+                 th:text="${alertMessage}"
+                 th:classappend="${alertType}"></div>
+
+            <form method="post" th:action="@{/cart(action = 'confirm')}" th:object="${studentInfoDto}">
+            <div class="top-bar">
+                <select class="select-box" required th:field="*{studentName}">
+                    <option value="" > Select Student</option>
+                    <option th:each="s : ${students}" th:value="${s.fullName}" th:text="${s.fullName}">Select Student</option>
+                </select>
+
+                <select class="select-box" required th:field="*{studentEmail}">
+                    <option value="" > Select Student email</option>
+                    <option th:each="s : ${students}" th:value="${s.email}" th:text="${s.email}">Select Email</option>
+                </select>
+
+                <a href="/book_allotment" style="text-decoration: none" class="add-books-btn">Add Books</a>
+                <button type="submit" class="confirm-btn">Confirm</button>
+            </div>
+            </form>
+            <div class="content-row">
+
+                <!-- LEFT SECTION -->
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Title</th>
+                                <th>Submission</th>
+                                <th>Subscription</th>
+                                <th>Quantity</th>
+                                <th>Total Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="c ,si: ${carts}">
+                                <td th:text="${si.index+1}">0</td>
+                                <td th:text="${c.bookTitle}">Harper Lee</td>
+                                <td th:text="${c.submissionType}">monthly</td>
+                                <td th:text="${c.subscriptionType}">monthly</td>
+                                <td>
+                                    <span class="qty-number" th:text="${c.quantity}">1</span>
+                                </td>
+                                <td th:text="${totalAmount}">500.00</td>
+                                <td>
+                                    <form method="post" th:action="@{/cart(action='delete')}">
+                                        <input type="hidden" name="deleteId" th:value="${c.bookId}">
+                                        <button class="delete-btn">
+                                            <i class="fa-solid fa-trash delete-icon"></i>
+                                        </button>
+                                    </form>
+
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script src="/Js/book_management.js"></script>
+    <script src="/Js/sidebar.js"></script>
+<script src="/Js/cart.js"></script>
+</body>
+
+</html>

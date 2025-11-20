@@ -1,0 +1,187 @@
+/* ===========================
+   ADMIN PROFILE MAIN AREA
+=========================== */
+
+.main-container {
+  padding: 30px;
+  background: #f4f4f4;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center everything */
+}
+
+/* Page Title */
+.page-title {
+  font-size: 1.4rem;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 100%;
+}
+/* Profile Card */
+.profile-card {
+  width: 100%;
+  max-width: 850px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+  animation: fadeIn .4s ease;
+  margin: auto;
+}
+
+/* User Image */
+.profile-img {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-img img {
+  width: 120px;
+  border-radius: 50%;
+  border: 3px solid #ff7b00;
+  background: #ffecd6;
+}
+
+/* Form Rows */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.form-group {
+  flex: 1 1 calc(50% - 22px);
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  color: #555;
+  font-size: 14px;
+}
+
+/* Input & Select Styling - FIXED */
+.form-group input,
+.form-group select {
+  width: 100%;               /* Full width of container */
+  padding: 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  font-size: 15px;
+  background: #fafafa;
+  box-sizing: border-box;    /* Fix value appearing outside */
+  transition: 0.2s;
+}
+
+.form-group input::-ms-value{
+  margin-top: -10px;
+}
+/* Focus State */
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #ff7b00;
+  background: #fff7ef;
+  outline: none;
+}
+
+/* Readonly Inputs Styling */
+.form-group input[readonly] {
+  cursor: default;
+  color: #333;
+  background: #f5f5f5;
+}
+
+
+/* Update Button */
+.btn-box {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.update-btn {
+  background: linear-gradient(135deg, #ff7b00, #ff9933);
+  color: white;
+  padding: 12px 35px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.update-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #e36f00, #ff8600);
+}
+
+/* Fade Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================
+       RESPONSIVE PART
+=========================== */
+
+/* ---------- Tablets (Below 900px) ---------- */
+@media (max-width: 900px) {
+
+  .main-container {
+    padding: 20px;
+  }
+
+  .profile-card {
+    max-width: 95%;
+    padding: 22px;
+  }
+
+  .form-group {
+    flex: 1 1 100%;
+  }
+}
+
+/* ---------- Mobile Large (Below 600px) ---------- */
+@media (max-width: 600px) {
+
+  .main-container {
+    padding: 15px;
+  }
+
+  .profile-card {
+    padding: 20px;
+    max-width: 92%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  .profile-img img {
+    width: 100px;
+  }
+
+  .update-btn {
+    width: 100%;
+  }
+}
+
+/* ---------- Mobile Small (Below 400px) ---------- */
+@media (max-width: 400px) {
+
+  .main-container {
+    padding: 10px;
+  }
+
+  .profile-card {
+    padding: 18px;
+    border-radius: 10px;
+    max-width: 90%;
+  }
+
+  .page-title {
+    font-size: 1.2rem;
+  }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | BookNest</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+  <!-- Login CSS -->
+  <link rel="stylesheet" href="/Style/login.css">
+</head>
+
+<body>
+
+  <div class="login-container">
+
+    <div class="glass-card">
+      <h2>Welcome to <span>BookNest</span></h2>
+      <p class="subtitle">Your Library, Anytime</p>
+
+      <form method="POST" th:action="@{/login}" th:object="${dto}">
+
+        <div class="input-group">
+          <i class="fa-solid fa-user"></i>
+          <label>
+            <input type="text" placeholder="Username"  required th:field="*{identity}">
+          </label>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-lock"></i>
+          <label>
+            <input type="password" placeholder="Password" required  th:field="*{password}">
+          </label>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+
+      </form>
+
+      <p class="footer-text">
+        © 2025 BookNest. All Rights Reserved.
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>

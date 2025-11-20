@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Allotment - SmartLib</title>
+  <link rel="stylesheet" href="/Style/book_allotment.css">
+  <link rel="stylesheet" href="/Style/dashboard.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+  <div class="container">
+    <!-- Hamburger checkbox -->
+    <input type="checkbox" id="sidebar-toggle" hidden>
+
+    <!-- Overlay -->
+    <label for="sidebar-toggle" class="overlay"></label>
+
+    <!-- Header with hamburger -->
+    <header class="header-bar">
+      <label for="sidebar-toggle" class="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </label>
+      <h1>Dashboard</h1>
+    </header>
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">
+          <img src="/image/library.jpg" alt="Library Image">
+        </div>
+        <div>
+          <h2>BookNest</h2>
+          <p>Your Library, Anytime</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="book_allotment"><i class="fa-solid fa-book-open-reader"></i> Books Allotment</a>
+        <div class="dropdown">
+          <a href="book_management" class="dropdown-toggle">
+            <i class="fa-solid fa-book"></i> Books Management
+            <i class="fa-solid fa-chevron-down arrow"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="book_management"><i class="fa-solid fa-pen-to-square"></i> Manage Books</a></li>
+            <li><a href="allotment_history"><i class="fa-solid fa-clock-rotate-left"></i> Allotment History</a>
+            </li>
+            <li><a href="submission"><i class="fa-solid fa-bookmark"></i> Submission</a></li>
+            <li><a href="cart"><i class="fa-solid fa-shopping-cart"></i>Cart</a></li>
+          </ul>
+        </div>
+
+        <a href="student_management"><i class="fa-solid fa-user-graduate"></i> Student Management</a>
+        <a href="purchase_books"><i class="fa-solid fa-cart-shopping"></i> Purchase Books</a>
+        <a href="vendor_management"><i class="fa-solid fa-store"></i> Vendor Management</a>
+        <a href="publication"><i class="fa-solid fa-newspaper"></i> Publications</a>
+        <a href="subscription"><i class="fa-solid fa-credit-card"></i> Subscription Type</a>
+        <!-- <a href="#"><i class="fa-solid fa-file-lines"></i> Reports</a> -->
+        <a href="profile"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </nav>
+    </aside>
+
+    <div class="main-container">
+
+
+
+      <!-- Submission Modal -->
+      <!-- Submission Modal -->
+      <div id="submissionModal" th:if="${qty > 0}" th:classappend="${submissionMode} ? 'show':''">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h3>Enter Submission Details</h3>
+          <form method="post" th:action="@{/book_allotment(action = 'add')}" th:object="${cartDto}">
+            <label>Submission Type</label>
+            <select id="submissionType" th:field="*{submissionType}" required>
+              <option value="">Select Submission Type</option>
+              <option value="Brow">Brow</option>
+              <option value="Return">Return</option>
+              <option value="Renew">Renew</option>
+            </select>
+
+            <label>Subscription Type</label>
+            <select id="subscriptionType" th:field="*{subscriptionType}" required>
+              <option value="">Select Subscription Type</option>
+              <option th:each="s : ${subscription}" th:value="${s.title}" th:text="${s.title}"></option>
+            </select>
+
+
+            <label>Cart Date</label>
+            <input type="date" id="cartDate" required th:field="*{addDate}"/>
+
+
+            <div class="modal-actions">
+              <button id="cancelBtn">Cancel</button>
+              <button class="submitBtn" id="submitSubmissionBtn">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+      <header class="header">
+        <div class="breadcrumb">
+          <i class="fas fa-home"></i>
+          <span>/ Book Management / Book Allotment</span>
+        </div>
+      </header>
+
+
+      <div class="top-row">
+        <div class="search-wrapper">
+
+          <a href="book_allotment" type="submit" id="refresh" class="ok-btn" style="text-decoration: none">Refresh</a>
+          <br>
+
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" class="search-bar" placeholder="Search Book...">
+        </div>
+
+
+
+<!--        -->
+        <div class="cart-summary-container" th:if="${cartOption == true}">
+          <h3>Cart Summary</h3>
+            <br>
+          <table class="cart-table">
+            <thead>
+            <tr>
+              <th>Book Title</th>
+              <th>Quantity</th>
+              <th>Delete</th>
+            </tr>
+            </thead>
+
+            <br>
+
+            <tbody>
+            <tr th:each="c : ${cartBooks}">
+              <td th:text="${c.bookTitle}">A Story of Yest</td>
+
+              <td>
+                <div class="qty-controls">
+                  <form method="post" th:action="@{/book_allotment(action='plus')}">
+                    <input type="hidden" name="cartPlusBookId" th:value="${c.bookId}">
+                    <button class="qty-btn">+</button>
+                  </form>
+
+                  <span class="qty-number" th:text="${c.quantity}">1</span>
+
+                  <form method="post" th:action="@{/book_allotment(action='minus')}">
+                    <input type="hidden" name="cartMinusId" th:value="${c.bookId}">
+                    <button class="qty-btn">-</button>
+                  </form>
+                </div>
+              </td>
+
+              <td>
+                <form method="post" th:action="@{/book_allotment(action='delete')}">
+                  <input type="hidden" name="cartDeleteId" th:value="${c.bookId}">
+                  <button class="delete-btn">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+          <br>
+
+          <div class="summary-details">
+            <p><strong>Total Items:</strong> <span th:text="${totalItems}">1</span></p>
+            <p><strong>Total Amount:</strong> BDT <span th:text="${totalAmount}">100.00</span></p>
+          </div>
+
+          <hr />
+
+          <br>
+          <br>
+          <a href="/cart" class="checkout-btn" style="text-decoration: none">Go To Checkout</a>
+        </div>
+
+
+
+        <div class="cart-summary" th:if="${cartEmpty == true}">
+          <h3>Cart Summary</h3>
+          <p class="empty">No items in your cart</p>
+        </div>
+
+      </div>
+
+
+
+      <div class="content-wrapper">
+        <div class="book-grid">
+          <div class="book-card" th:each="b : ${books}">
+            <div class="book-image">
+              <img th:src="@{'/uploads/' + ${b.imageName}}" alt="Book Image">
+            </div>
+            <p class="book-title" th:text="${b.bookName}">Book Title</p>
+            <p class="in-stock"  th:if="${b.getAvailableQuantity()  > 0}"  th:text="'In Stock: ' + ${b.availableQuantity}">In Stock: 0</p>
+            <p class="out-stock" th:if="${b.getAvailableQuantity() == 0}" th:text="'Out of Stock: ' + ${b.availableQuantity}">In Stock: 0</p>
+
+            <br>
+
+            <form th:action="@{/book_allotment}" method="get" style="display:inline">
+              <input type="hidden" name="bookId" th:value="${b.getBookId()}"/>
+              <button class="submitBtn" id="submitCartBtn">Add Cart</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+</div>
+  <script src="/Js/sidebar.js"></script>
+  <script src="/Js/book_allotment.js"></script>
+</body>
+
+</html>

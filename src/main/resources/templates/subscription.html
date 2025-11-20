@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Type</title>
+
+  <link rel="stylesheet" href="/Style/dashboard.css">
+  <link rel="stylesheet" href="/Style/subscription.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- Sidebar Toggle -->
+    <input type="checkbox" id="sidebar-toggle" hidden>
+    <label for="sidebar-toggle" class="overlay"></label>
+
+    <!-- Header -->
+    <header class="header-bar">
+      <label for="sidebar-toggle" class="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </label>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo"><img src="/image/library.jpg"></div>
+        <div>
+          <h2>BookNest</h2>
+          <p>Your Library, Anytime</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="book_allotment"><i class="fa-solid fa-book-open-reader"></i> Books Allotment</a>
+
+        <div class="dropdown">
+          <a href="book_management" class="dropdown-toggle">
+            <i class="fa-solid fa-book"></i> Books Management
+            <i class="fa-solid fa-chevron-down arrow"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="book_management"><i class="fa-solid fa-pen-to-square"></i> Manage Books</a></li>
+            <li><a href="allotment_history"><i class="fa-solid fa-clock-rotate-left"></i> Allotment History</a></li>
+            <li><a href="submission"><i class="fa-solid fa-bookmark"></i> Submission</a></li>
+            <li><a href="cart"><i class="fa-solid fa-shopping-cart"></i>Cart</a></li>
+          </ul>
+        </div>
+
+        <a href="student_management"><i class="fa-solid fa-user-graduate"></i> Student Management</a>
+        <a href="purchase_books"><i class="fa-solid fa-cart-shopping"></i> Purchase Books</a>
+        <a href="vendor_management"><i class="fa-solid fa-store"></i> Vendor Management</a>
+        <a href="publication"><i class="fa-solid fa-newspaper"></i> Publications</a>
+        <a href="subscription"><i class="fa-solid fa-credit-card"></i> Subscription Type</a>
+        <a href="profile"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <div id="alertBox"
+           th:if="${alertMessage}"
+           th:text="${alertMessage}"
+           th:classappend="${alertType}"></div>
+
+      <div class="subscription-breadcrumb">
+        <i class="fa-solid fa-house"></i>
+        / Subscription Type
+      </div>
+
+      <div class="subscription-header">
+        <button class="add-sub-btn" id="addStudentForm">
+          <i class="fa-solid fa-plus" ></i> Add Subscription
+        </button>
+      </div>
+
+      <div class="subscription-toolbar">
+<!--        <button class="tool-btn"><i class="fa-solid fa-table-columns"></i> Columns</button>-->
+<!--        <button class="tool-btn"><i class="fa-solid fa-filter"></i> Filters</button>-->
+<!--        <button class="tool-btn"><i class="fa-solid fa-expand"></i> Density</button>-->
+        <button class="tool-btn"><a th:href="@{/exportSubscriptionPdf}" style="text-decoration: none" class="btn btn-outline">Export <i class="fas fa-file-export"></i></a></button>
+        <div class="search-wrapper">
+          <a href="subscription" type="submit" id="refresh" class="ok-btn" style="text-decoration: none">Refresh</a>
+          <br>
+
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" class="search-bar" placeholder="Search Book...">
+        </div>
+      </div>
+
+      <div class="subscription-table-container">
+        <table class="subscription-table">
+          <thead>
+            <tr>
+              <th>sNo.</th>
+              <th>Title</th>
+              <th>Amount</th>
+              <th>Number Of Days</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr th:each="s , si : ${subscriptions}">
+              <td th:text="${si.index+1}">1</td>
+              <td th:text="${s.title}">weekly</td>
+              <td th:text="${s.amount}">€ 100</td>
+              <td th:text="${s.days}">7</td>
+              <td class="action-icons">
+                <form th:action="@{/subscription}" method="get" style="display:inline">
+                  <input type="hidden" name="editSubscriptionId" th:value="${s.id}" />
+                  <button class="action-btn edit" title="edit" id="edit">
+                    <i class="fa-solid fa-pen edit"></i>
+                  </button>
+                </form>
+
+                <form th:action="@{/subscription}" method="get" style="display:inline">
+                  <input type="hidden" name="deleteSubscriptionId" th:value="${s.id}" />
+                  <button class="action-btn delete" title="Delete" id="delete">
+                    <i class="fa-solid fa-trash delete"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+      </div>
+
+
+
+
+
+
+      <div id="addSubscription" class="modal">
+        <div class="modal-content">
+          <span class="close-btn" id="closeModalBtn"><a href="subscription" style="text-decoration: none">&times;</a></span>
+          <h2>Add New Subscription</h2>
+          <form method="post" th:action="@{/subscription(action = 'add')}" th:object="${subscription}">
+            <label for="title">Subscription Title :</label>
+            <input type="text" id="title" name="title" required
+                   placeholder="Enter Subscription Title" th:field="*{title}"><br>
+
+            <label for="amount">Enter Amount</label>
+            <input type="number" id="amount" name="amount" required
+                   placeholder="Enter Subscription amount" th:field="*{amount}"><br>
+
+            <label for="numberOfDays">Enter Number of Days:</label>
+            <input type="number" id="numberOfDays" name="numberOfDays" required
+                    placeholder="Enter Number of Days" th:field="*{days}"> <br>
+
+            <button type="submit" class="save-btn btn">Submit</button>
+            <button  style="text-decoration: none" type="button" class="cancel-btn abtn"  id="cancelModalButton"><a href="subscription" style="text-decoration: none"> Cancel</a></button>
+          </form>
+        </div>
+      </div>
+
+
+      <div id="editSubscription" class="modal" th:classappend="${editMode} ? 'open':''">
+        <div class="modal-content">
+          <span class="close-btn" id="closeEditModalBtn"><a href="subscription" style="text-decoration: none"> &times; </a> </span>
+          <h2>Add New Subscription</h2>
+          <form method="post" th:action="@{/subscription(action = 'edit')}"  th:if="${editSubscription}"  th:object="${editSubscription}">
+            <label for="title">Subscription Title :</label>
+            <input type="text" id="editTitle" name="title" required
+                   placeholder="Enter Subscription Title" th:field="*{title}"><br>
+
+            <label for="amount">Enter Amount</label>
+            <input type="number" id="editAmount" name="amount" required
+                   placeholder="Enter Subscription amount" th:field="*{amount}"><br>
+
+            <label for="numberOfDays">Enter Number of Days:</label>
+            <input type="number" id="editNumberOfDays" name="numberOfDays" required
+                   placeholder="Enter Number of Days" th:field="*{days}"> <br>
+
+            <button type="submit" class="save-btn btn">Submit</button>
+            <button  style="text-decoration: none" type="button" class="cancel-btn abtn"  id="cancelEditModal"><a href="subscription" style="text-decoration: none"> Cancel</a></button>
+          </form>
+        </div>
+      </div>
+
+      <div id="deleteSubscription" class="modal" th:classappend="${deleteMode} ? 'open':''">
+        <div class="modal-content">
+          <span class="close-btn" id="closeDeleteModalBtn"><a href="subscription" style="text-decoration: none">&times;</a></span>
+          <h2>Delete Subscription</h2>
+          <form method="post" th:action="@{/subscription(action = 'delete')}">
+            <div style="background: rgba(0,0,0,0.5); border-radius: 15px; padding: 10px">
+            <h3 style="color: white; font-weight: 500; line-height: 1.6">Delete Subscription?</h3>
+            <p style="color: white; font-weight: 300">Are you sure you want to delete this Subscrition?
+            </div>
+            <br>
+            <button type="submit" class="save-btn btn">Submit</button>
+            <button  style="text-decoration: none" type="button" class="cancel-btn abtn"  id="cancelDeleteModalButton"><a href="subscription" style="text-decoration: none"> Cancel</a></button>
+          </form>
+        </div>
+      </div>
+
+
+    </main>
+  </div>
+
+  <script src="/Js/sidebar.js"></script>
+<script src="/Js/subscription.js"></script>
+</body>
+
+</html>

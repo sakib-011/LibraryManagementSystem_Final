@@ -1,0 +1,678 @@
+/* ======================================================
+   SMARTLIB — BOOK MANAGEMENT PAGE (Balanced & Polished)
+   Modern white-orange clean theme
+====================================================== */
+
+/* ===== GLOBAL RESET (Keep existing) ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  background: #f4f4f4;
+  color: #333;
+  overflow-x: hidden;
+  font-size: 15px;
+}
+
+/* === CONTAINER FOR THE SIDEBAR LAYOUT === */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== MAIN CONTENT FIX (Crucial for Responsiveness) ===== */
+.main {
+  /* Initial state: pushes content past the sidebar */
+  flex: 1;
+  padding: 2rem 0;
+  margin-left: 260px; /* Width of the default open sidebar */
+  transition: margin-left 0.3s ease; /* Smooth transition */
+}
+
+/* When the sidebar is toggled (hidden or moved off-screen) */
+#sidebar-toggle:checked ~ .main {
+  margin-left: 0; /* No margin when sidebar is closed/hidden */
+}
+
+/* The sidebar itself is controlled by the dashboard.css, but this ensures main adjusts */
+
+
+/* ===== HEADER BUTTON (Add New Book) (Keep existing) ===== */
+.header-buttons {
+  position: relative;
+  margin: 1rem 2rem;
+  display: inline-block;
+}
+
+.header-buttons .btn {
+  background: linear-gradient(135deg, #ff7b00, #ff9933);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header-buttons .btn i {
+  font-size: 1rem;
+}
+
+.header-buttons .btn:hover {
+  background: linear-gradient(135deg, #e36f00, #ff8800);
+  transform: scale(1.05);
+}
+
+.breadcrumb {
+  margin: 1rem 2rem;
+  background: #fff;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* ===== BUTTONS (Keep existing) ===== */
+.btn {
+  background: #ff7b00;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* ===== TABLE CONTAINER (Keep existing) ===== */
+.table-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.2rem;
+  margin: 0 2rem 2rem 2rem;
+  overflow-x: auto; /* Allows table to scroll horizontally if needed */
+}
+
+/* ===== TABLE TOP BAR (Keep existing) ===== */
+.table-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.left-controls button {
+  background: none;
+  border: 1px solid #ff7b00;
+  color: #ff7b00;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.left-controls button:hover {
+  background: #ff7b00;
+  color: #fff;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  width: 240px;
+}
+
+.search-wrapper i {
+  color: #ff7b00;
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.search-bar {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+/* ===== TABLE (Keep existing) ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 820px; /* Set a minimum width for non-mobile table */
+  font-size: 0.93rem;
+}
+
+thead {
+  background: #f8f8f8;
+  color: #333;
+}
+
+thead th {
+  text-align: left;
+  padding: 12px 14px;
+  font-weight: 600;
+}
+
+tbody tr {
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background: #fdf5ed;
+}
+
+tbody td {
+  padding: 10px 14px;
+  vertical-align: middle;
+}
+
+/* ===== BOOK IMAGE (Keep existing) ===== */
+table img {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* ===== STATUS COLORS (Keep existing) ===== */
+.available {
+  color: #27ae60;
+  font-weight: 500;
+}
+
+.not-available {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+/* ===== ACTION ICONS (Keep existing) ===== */
+.edit-n,
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: 0.3s;
+  margin-right: 6px;
+}
+
+.edit-n {
+  color: #ff7b00;
+}
+
+.edit-n:hover {
+  color: #e36900;
+}
+
+.delete-btn {
+  color: #e74c3c;
+}
+
+.delete-btn:hover {
+  color: #c0392b;
+}
+
+/* ===== FILTER POPUP (Updated for better modal behavior) ===== */
+.filter-popup {
+  display: none;
+  position: fixed;
+  inset: 0; /* Covers the entire viewport */
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.45);
+  padding: 22px;
+  z-index: 100;
+  /* Instead of translate, we'll use Flexbox to center the content inside the fixed div */
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+/* New: Use display: flex and a class to show it */
+.filter-popup.showFilter {
+  display: flex;
+}
+
+.filter-popup form {
+  /* Inner container for the form to give it a defined size */
+  background: #fff; /* Solid white background for content */
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  padding: 22px;
+  border-radius: 14px;
+  width: 300px;
+  max-width: 90%;
+  color: #333; /* Change text color from white to black inside the white box */
+  animation: slideUp 0.3s ease;
+}
+
+/* ===== FILTER POPUP HEADER (Adjusted color for white background) ===== */
+.filter-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-weight: 500;
+  color: #333; /* Changed to dark text */
+}
+
+.filter-popup-header strong {
+  font-size: 1.1rem;
+  color: #ff7b00;
+}
+
+.filter-popup-header button {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #555; /* Changed close button color */
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.filter-popup-header button:hover {
+  color: #ff7b00;
+  transform: rotate(90deg);
+}
+
+.filter-popup label {
+  color: #333; /* Ensure label is visible */
+  margin-top: 10px;
+  display: block;
+}
+
+.option,
+.apply-btn {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd; /* Changed border for white background */
+  background: #fff; /* Changed background for white background */
+  color: #333;
+  font-size: 0.9rem;
+  outline: none;
+  transition: 0.3s ease;
+}
+.apply-btn {
+  margin-top: 20px;
+}
+
+.option:focus {
+  border-color: #ff7b00;
+  box-shadow: 0 0 6px rgba(255, 123, 0, 0.5);
+}
+
+.apply-btn {
+  background: linear-gradient(135deg, #ff7b00, #ff9933);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.apply-btn:hover {
+  background: linear-gradient(135deg, #e36f00, #ff8800);
+  transform: scale(1.05);
+}
+
+/* ===== MODAL (Transparent Orange/White/Black) ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.6); /* Darker backdrop */
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal.show {
+  display: flex !important;
+}
+
+.modal-content {
+  /* Transparent Dark Modal Body */
+  background: rgba(34, 34, 34, 0.9); /* Dark background, slightly transparent */
+  color: #fff; /* ALL text inside the modal is white */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  padding: 28px;
+  border-radius: 14px;
+  width: 420px;
+  max-width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle white border */
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+  color: #ff7b00; /* Orange accent */
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-shadow: none;
+}
+
+/* Inputs */
+.modal-content label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #f0f0f0; /* Light gray for labels */
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 14px;
+  border: 1px solid #777; /* Gray border for contrast */
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.1); /* Transparent White Input Field */
+  color: #fff; /* White text in input */
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+  color: #ccc; /* Lighter placeholder text */
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+  border-color: #ff7b00; /* Orange focus border */
+  background: rgba(255, 255, 255, 0.15); /* Slightly less transparent on focus */
+  box-shadow: 0 0 8px rgba(255, 123, 0, 0.5); /* Stronger orange glow */
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 22px;
+  color: #fff; /* White close button */
+  background: transparent;
+  border: none;
+  transition: 0.3s;
+}
+
+.close-btn:hover {
+  color: #ff7b00; /* Orange hover */
+  transform: rotate(90deg);
+}
+
+/* Modal Buttons */
+.save-btn,
+.cancel-btn,
+.ok-btn {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: 0.3s ease;
+  margin-right: 10px;
+}
+
+/* Primary Button: Save/OK (Orange) */
+.save-btn,
+.ok-btn {
+  background: linear-gradient(135deg, #ff7b00, #ff9933);
+  color: #fff;
+}
+
+.save-btn:hover,
+.ok-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #e36f00, #ff8800);
+}
+
+/* Secondary Button: Cancel (White/Light Gray) */
+.cancel-btn {
+  background: #555; /* Darker gray background */
+  color: #fff;
+  border: 1px solid #666;
+}
+
+.cancel-btn:hover {
+  background: #777;
+}
+
+/* ===== ANIMATIONS (Keep existing) ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+
+
+#alertBox {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 5px;
+  font-family: sans-serif;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  z-index: 1000;
+  color: white;
+}
+
+/* Success & Error colors */
+#alertBox.success {
+  background-color: #4caf50; /* green */
+}
+#alertBox.error {
+  background-color: #f44336; /* red */
+}
+
+#alertBox.hide {
+  opacity: 0;
+}
+
+/* ===========================
+   RESPONSIVE DESIGN OPTIMIZED
+=========================== */
+
+/* LAPTOP / SMALL DESKTOP */
+@media (max-width: 1200px) {
+  /* This ensures the margin is reduced if the sidebar is still open */
+  .main {
+    margin-left: 200px;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+}
+
+/* TABLETS (Sidebar now fully toggles, main content takes full width) */
+@media (max-width: 992px) {
+  /* Critical: The sidebar should be hidden/off-screen on mobile and its presence shouldn't affect main layout */
+  .main {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+
+  /* The sidebar toggle logic must be in your separate dashboard.css/Js */
+
+
+  .table-container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .table-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  table {
+    min-width: 100%; /* Important: Let the table collapse if it can */
+  }
+
+  .header-buttons {
+    margin: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+/* LARGE MOBILE (Refined for cleaner stack) */
+@media (max-width: 768px) {
+  .breadcrumb {
+    margin: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .btn,
+  .header-buttons .btn {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
+  table img {
+    width: 38px;
+    height: 38px;
+  }
+
+  tbody td {
+    padding: 8px;
+  }
+
+  .edit-n,
+  .delete-btn {
+    font-size: 1rem;
+  }
+}
+
+/* SMALL MOBILE (The mobile "card" view is vastly improved) */
+@media (max-width: 576px) {
+  .table-container {
+    padding: 0.8rem;
+    /* Ensure overflow-x: auto is still set on .table-container outside this block */
+    /* This allows the container to scroll horizontally. */
+  }
+
+  .table-top {
+    flex-direction: column;
+    text-align: center;
+    align-items: stretch; /* Make items take full width */
+  }
+
+  /*
+    CRITICAL CHANGE: REMOVE CARD VIEW STYLES
+    We remove the styles that hide the header (thead)
+    and change the display of rows/cells (tr/td) to block/flex.
+    This restores the default table layout.
+  */
+
+  thead {
+    /* Restore the table header display */
+    display: table-header-group;
+    font-size: 0.8rem; /* Smaller font for narrow view */
+  }
+
+  tbody tr {
+    /* Remove block display and borders/shadows added for card view */
+    display: table-row;
+    margin-bottom: 0;
+    border: none;
+    border-bottom: 1px solid #eee; /* Restore normal separator */
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  tbody td {
+    /* Remove flex display, remove data-label content */
+    display: table-cell;
+    padding: 8px 6px; /* Reduced padding */
+    font-size: 0.8rem; /* Smaller font for narrow view */
+    vertical-align: middle;
+    white-space: nowrap; /* Prevent content from wrapping to keep height small */
+    border-bottom: none;
+  }
+
+  tbody td::before {
+    /* Hide data labels */
+    content: none;
+  }
+
+  /* Re-adjusting the action/image cells to fit the new size */
+  td:last-child,
+  td:nth-child(3) {
+    display: table-cell;
+    border-top: none;
+    padding-top: 8px;
+    margin-top: 0;
+    justify-content: center;
+  }
+
+  td:last-child::before {
+    content: none;
+  }
+
+  /* Modal adjustments (Keep these for screen fitting) */
+  .modal-content {
+    padding: 18px;
+    max-width: 95%; /* Ensure modal fits on the smallest screen */
+  }
+
+  .close-btn {
+    font-size: 20px;
+  }
+}

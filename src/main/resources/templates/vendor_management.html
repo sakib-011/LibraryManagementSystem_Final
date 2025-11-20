@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student Management</title>
+    <link rel="stylesheet" href="/Style/book_management.css" />
+    <link rel="stylesheet" href="/Style/vendor_management.css" />
+    <link rel="stylesheet" href="/Style/dashboard.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container">
+
+        <input type="checkbox" id="sidebar-toggle" hidden>
+        <label for="sidebar-toggle" class="overlay"></label>
+
+
+        <!-- Header with hamburger -->
+        <header class="header-bar">
+            <label for="sidebar-toggle" class="hamburger">
+                <i class="fa-solid fa-bars"></i>
+            </label>
+        </header>
+
+
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo">
+                    <img src="/image/library.jpg" alt="Library Image">
+                </div>
+                <div>
+                    <h2>BookNest</h2>
+                    <p>Your Library, Anytime</p>
+                </div>
+            </div>
+
+            <nav class="menu">
+                <a href="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="book_allotment"><i class="fa-solid fa-book-open-reader"></i> Books Allotment</a>
+                <div class="dropdown">
+                    <a href="book_management" class="dropdown-toggle">
+                        <i class="fa-solid fa-book"></i> Books Management
+                        <i class="fa-solid fa-chevron-down arrow"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="book_management"><i class="fa-solid fa-pen-to-square"></i> Manage Books</a>
+                        </li>
+                        <li><a href="allotment_history"><i class="fa-solid fa-clock-rotate-left"></i> Allotment
+                                History</a></li>
+                        <li><a href="submission"><i class="fa-solid fa-bookmark"></i> Submission</a></li>
+                        <li><a href="cart"><i class="fa-solid fa-shopping-cart"></i>Cart</a></li>
+                    </ul>
+                </div>
+                <a href="student_management"><i class="fa-solid fa-user-graduate"></i> Student Management</a>
+                <a href="purchase_books"><i class="fa-solid fa-cart-shopping"></i> Purchase Books</a>
+                <a href="vendor_management"><i class="fa-solid fa-store"></i> Vendor Management</a>
+                <a href="publication"><i class="fa-solid fa-newspaper"></i> Publications</a>
+                <a href="subscription"><i class="fa-solid fa-credit-card"></i> Subscription Type</a>
+                <!-- <a href="#"><i class="fa-solid fa-file-lines"></i> Reports</a> -->
+                <a href="profile"><i class="fa-solid fa-user"></i> Profile</a>
+                <a href="login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </nav>
+        </aside>
+
+
+        <div class="main">
+            <main class="content">
+
+                <div id="alertBox"
+                     th:if="${alertMessage}"
+                     th:text="${alertMessage}"
+                     th:classappend="${alertType}"></div>
+
+                <!-- PAGE HEADER -->
+                <div class="page-header">
+                    <div class="breadcrumb">
+                        <i class="fa fa-home"></i> / Vendor Management
+                    </div>
+                    <button id="openVendorModal" class="add-btn">
+                        <i class="fa fa-plus"></i> Add New Vendor
+                    </button>
+
+                </div>
+
+                <!-- TOOLBAR -->
+                <div class="toolbar">
+                    <div class="left-tools">
+                        <!-- <span class="tool"><i class="fa fa-table-columns"></i> Columns</span> -->
+<!--                        <span class="tool" id="openFilter"><i class="fa fa-filter"></i> Filters</span>-->
+                        <!-- <span class="tool"><i class="fa fa-bars"></i> Density</span> -->
+                        <a th:href="@{/exportVendorsPdf}" style="text-decoration: none" class="btn btn-outline">Export <i class="fas fa-file-export"></i></a>
+                    </div>
+
+
+                    <div class="search-wrapper">
+                        <a href="vendor_management" type="submit" id="refresh" class="ok-btn" style="text-decoration: none">Refresh</a>
+                        <br>
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" class="search-bar" placeholder="Search Book...">
+                    </div>
+
+                </div>
+
+                <!-- TABLE -->
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr >
+                                <th>sNo.</th>
+                                <th>Vendor Name</th>
+                                <th>Company Name</th>
+                                <th>Date</th>
+                                <th>Phone Number</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="v , si : ${vendors}">
+                                <td th:text="${si.index+1}">1</td>
+                                <td><a class="vendor-link" th:text="${v.name}">Mujeeb Rahiman C</a></td>
+                                <td th:text="${v.companyName}">AMLP School EPPICAD</td>
+                                <td th:text="${v.addDate}">14/05/2025</td>
+                                <td th:text="${v.phone}">9400478153</td>
+                                <td th:text="${v.email}">sakib@gmail.com</td>
+                                <td th:text="${v.address}">Dhaka - 1212</td>
+                                <td class="actions">
+                                    <form th:action="@{/vendor_management}" method="get" style="display:inline">
+                                        <input type="hidden" name="vendorId" th:value="${v.vendorId}" />
+                                        <button class="action-btn edit" style="border: transparent" title="Edit" onclick="openEditStudentModal()">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+                                    </form>
+                                    <form th:action="@{/vendor_management}" method="get" style="display:inline">
+                                        <input type="hidden" name="vendorDeleteId" th:value="${v.vendorId}" />
+                                        <button class="action-btn delete" style="border: transparent" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- DELETE MODAL -->
+        <div class="modal-overlay" id="deleteModal" th:classappend="${deleteMode} ? 'show' : ''">
+            <div class="modal-box small">
+                <form method="post" th:action="@{/vendor_management(action='delete')}">
+                <h3>Delete Vendor?</h3>
+                <p>Are you sure you want to delete this vendor?</p>
+                <div class="modal-footer">
+                    <a href="vendor_management" style="text-decoration: none" class="cancel" id="closeDelete">Cancel</a>
+                    <button class="delete-confirm">Delete</button>
+                </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div class="modal-overlay" id="editModal" th:classappend="${editMode} ? 'show':''">
+
+            <div class="modal-box">
+                    <h3>Edit Vendor</h3>
+
+                <form  method="post" th:action="@{/vendor_management(action = 'edit')}" th:if="${editVendor}" th:object="${editVendor}">
+                    <label>Vendor Name</label>
+                    <input type="text" name="name" placeholder="Enter Vendor Name" required th:field="*{name}" >
+
+                    <label>Company Name</label>
+                    <input type="text"  name="companyName" placeholder="Enter Company Name" required th:field="*{companyName}">
+
+                    <label>Phone</label>
+                    <input type="text" name ="phoneNumber" placeholder="Enter Phone Number" required th:field="*{phone}">
+
+                    <label>Email</label>
+                    <input type="email" name= "email" placeholder="Enter Email" required th:field="*{email}">
+
+                    <label>Address</label>
+                    <textarea name = "address" required placeholder="Enter Vendor address" th:field="*{address}"></textarea>
+
+                    <div class="modal-footer">
+                        <button class="update">Update</button>
+                        <a href="vendor_management" style="text-decoration: none" class="cancel" id="closeEdit">Cancel</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+<!--        &lt;!&ndash; FILTER POPUP &ndash;&gt;-->
+<!--        <div class="modal-overlay" id="filterModal">-->
+<!--            <div class="modal-box small">-->
+<!--                <h3>Filter Options</h3>-->
+
+<!--                <label>Filter by</label>-->
+<!--                <select>-->
+<!--                    <option>Vendor Name</option>-->
+<!--                    <option>Company Name</option>-->
+<!--                </select>-->
+
+<!--                <label>Order</label>-->
+<!--                <select>-->
+<!--                    <option>Ascending</option>-->
+<!--                    <option>Descending</option>-->
+<!--                </select>-->
+
+<!--                <div class="modal-footer">-->
+<!--                    <button class="update">Apply</button>-->
+<!--                    <button class="cancel" id="closeFilter">Close</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+
+
+
+
+        <div class="vendor-modal-overlay" id="vendorModal">
+            <div class="vendor-modal-box">
+
+                <div class="vendor-modal-header">
+                    <h3>Add Vendor</h3>
+                    <span class="vendor-close-btn" id="closeVendorModal">&times;</span>
+                </div>
+
+                <form method="post" th:action="@{/vendor_management(action = 'add')}" th:object="${vendor}">
+                    <div class="vendor-form-grid">
+
+                    <div class="vendor-form-group">
+                        <label>Vendor Name</label>
+                        <label>
+                            <input type="text" required placeholder="Enter Vendor Name" th:field="*{name}">
+                        </label>
+                    </div>
+
+                    <div class="vendor-form-group">
+                        <label>Company</label>
+                        <label>
+                            <input type="text" required placeholder="Enter Company Name" th:field="*{companyName}">
+                        </label>
+                    </div>
+
+                    <div class="vendor-form-group">
+                        <label>Phone Number</label>
+                        <label>
+                            <input type="text" required placeholder="Enter Vendor Phone Number" th:field="*{phone}">
+                        </label>
+                    </div>
+
+                    <div class="vendor-form-group">
+                        <label>Email</label>
+                        <label>
+                            <input type="email" required placeholder="Enter Vendor Email" th:field="*{email}">
+                        </label>
+                    </div>
+
+                    <div class="vendor-form-group vendor-full-row">
+                        <label>Address</label>
+                        <label>
+                            <input type="text" required placeholder="Enter Vendor Address" th:field="*{address}">
+                        </label>
+                    </div>
+
+                    </div>
+
+                    <div class="vendor-modal-footer">
+                        <button class="vendor-save-btn">Save</button>
+                        <button class="vendor-cancel-btn" id="cancelVendorModal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script src="/Js/student_management.js"></script>
+    <script src="/Js/sidebar.js"></script>
+    <script src="/js/vendor_management.js"></script>
+</body>
+
+</html>

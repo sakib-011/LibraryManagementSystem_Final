@@ -1,0 +1,176 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookNest Dashboard</title>
+  <link rel="stylesheet" href="/Style/dashboard.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <!-- Hamburger checkbox -->
+    <input type="checkbox" id="sidebar-toggle" hidden>
+
+    <!-- Overlay -->
+    <label for="sidebar-toggle" class="overlay"></label>
+
+    <!-- Header with hamburger -->
+    <header class="header-bar">
+      <label for="sidebar-toggle" class="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </label>
+   
+    </header>
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">
+          <img src="/image/library.jpg" alt="Library Image">
+        </div>
+        <div>
+          <h2>BookNest</h2>
+          <p>Your Library, Anytime</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="book_allotment"><i class="fa-solid fa-book-open-reader"></i> Books Allotment</a>
+        <div class="dropdown">
+          <a href="book_management" class="dropdown-toggle">
+            <i class="fa-solid fa-book"></i> Books Management
+            <i class="fa-solid fa-chevron-down arrow"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="book_management"><i class="fa-solid fa-pen-to-square"></i> Manage Books</a></li>
+            <li><a href="allotment_history"><i class="fa-solid fa-clock-rotate-left"></i> Allotment History</a>
+            </li>
+            <li><a href="submission"><i class="fa-solid fa-bookmark"></i> Submission</a></li>
+            <li><a href="cart"><i class="fa-solid fa-shopping-cart"></i>Cart</a></li>
+          </ul>
+        </div>
+
+        <a href="student_management"><i class="fa-solid fa-user-graduate"></i> Student Management</a>
+        <a href="purchase_books"><i class="fa-solid fa-cart-shopping"></i> Purchase Books</a>
+        <a href="vendor_management"><i class="fa-solid fa-store"></i> Vendor Management</a>
+        <a href="publication"><i class="fa-solid fa-newspaper"></i> Publications</a>
+        <a href="subscription"><i class="fa-solid fa-credit-card"></i> Subscription Type</a>
+        <!-- <a href="#"><i class="fa-solid fa-file-lines"></i> Reports</a> -->
+        <a href="profile"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+
+    <main class="main">
+      <header class="header">
+        <h1>Hi, welcome back! , <span th:text="${name}"></span></h1>
+        <p th:text="${#temporals.format(dateTime, 'EEEE d MMMM yyyy')}">Friday 20th June 2025</p>
+      </header>
+
+
+
+
+      <!-- Top Cards (modern style like student-card) -->
+
+      <!-- Top Cards Section -->
+      <section>
+        <h2 class="section-title">Dashboard Stats</h2>
+        <div class="stats-row">
+          <div class="info-card">
+            <div class="icon-box students"><i class="fa-solid fa-user-plus"></i></div>
+            <div class="content">
+              <h2 th:text="${totalStudent}">10</h2>
+              <p>Total Students</p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="icon-box books"><i class="fa-solid fa-book"></i></div>
+            <div class="content">
+              <h2 th:text="${totalBook}">62</h2>
+              <p>Total Books</p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="icon-box vendors"><i class="fa-solid fa-store"></i></div>
+            <div class="content">
+              <h2 th:text="${totalVendor}">2</h2>
+              <p>Total Vendors</p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="icon-box publications"><i class="fa-solid fa-newspaper"></i></div>
+            <div class="content">
+              <h2 th:text="${totalPublication}">11</h2>
+              <p>Total Publications</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mini Cards Section -->
+      <section>
+        <h2 class="section-title">Book Allotment Summary</h2>
+        <div class="mini-cards-row">
+          <div class="mini-card">
+            <div class="icon-box books"><i class="fa-solid fa-book-open-reader"></i></div>
+            <div class="content">
+              <h3  th:text="${totalAllotment}">33</h3>
+              <p>Total Allotted</p>
+            </div>
+          </div>
+
+
+          <div class="mini-card">
+            <div class="icon-box earnings"><i class="fa-solid fa-dollar-sign"></i></div>
+            <div class="content">
+              <h3> BDT <span th:text="${totalEarning}" >$2209 </span></h3>
+              <p>Total Earning</p>
+            </div>
+          </div>
+
+          <div class="mini-card">
+            <div class="icon-box students"><i class="fa-solid fa-book"></i></div>
+            <div class="content">
+              <h3 th:text="${totalReturn}">19</h3>
+              <p>Submitted Books</p>
+            </div>
+          </div>
+
+          <div class="mini-card">
+            <div class="icon-box vendors"><i class="fa-solid fa-book-journal-whills"></i></div>
+            <div class="content">
+              <h3 th:text="${totalPending}">14</h3>
+              <p>Pending Books</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+
+
+    </main>
+  </div>
+
+  <script src="/Js/sidebar.js"></script>
+</body>
+
+
+
+</html>

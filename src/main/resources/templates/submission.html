@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Receive</title>
+  <link rel="stylesheet" href="/Style/submission.css">
+  
+  <link rel="stylesheet" href="/Style/dashboard.css">
+  <link rel="stylesheet" href="/Style/book_management.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+
+  <div class="container">
+
+    <!-- Hamburger checkbox -->
+    <input type="checkbox" id="sidebar-toggle" hidden>
+
+    <!-- Overlay -->
+    <label for="sidebar-toggle" class="overlay"></label>
+
+    <!-- Header with hamburger -->
+    <header class="header-bar">
+      <label for="sidebar-toggle" class="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </label>
+    </header>
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">
+          <img src="/image/library.jpg" alt="Library Image">
+        </div>
+        <div>
+          <h2>BookNest</h2>
+          <p>Your Library, Anytime</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="book_allotment"><i class="fa-solid fa-book-open-reader"></i> Books Allotment</a>
+        <div class="dropdown">
+          <a href="book_management" class="dropdown-toggle">
+            <i class="fa-solid fa-book"></i> Books Management
+            <i class="fa-solid fa-chevron-down arrow"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="book_management"><i class="fa-solid fa-pen-to-square"></i> Manage Books</a></li>
+            <li><a href="allotment_history"><i class="fa-solid fa-clock-rotate-left"></i> Allotment History</a>
+            </li>
+            <li><a href="submission"><i class="fa-solid fa-bookmark"></i> Submission</a></li>
+            <li><a href="cart"><i class="fa-solid fa-shopping-cart"></i>Cart</a></li>
+          </ul>
+        </div>
+
+        <a href="student_management"><i class="fa-solid fa-user-graduate"></i> Student Management</a>
+        <a href="purchase_books"><i class="fa-solid fa-cart-shopping"></i> Purchase Books</a>
+        <a href="vendor_management"><i class="fa-solid fa-store"></i> Vendor Management</a>
+        <a href="publication"><i class="fa-solid fa-newspaper"></i> Publications</a>
+        <a href="subscription"><i class="fa-solid fa-credit-card"></i> Subscription Type</a>
+        <!-- <a href="#"><i class="fa-solid fa-file-lines"></i> Reports</a> -->
+        <a href="profile"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </nav>
+    </aside>lass="sidebar">
+    <div class="brand">
+      <div class="logo">
+        <img src="/image/library.jpg" alt="Library Image">
+      </div>
+      <div>
+        <h2>BookNest</h2>
+        <p>Your Library, Anytime</p>
+      </div>
+    </div>
+
+
+    <div class="main">
+      <div class="breadcrumb">
+        <i class="fa-solid fa-house"></i> / Book Management / Receive
+      </div>
+
+
+      <div class="table-container">
+        <div class="table-header">
+          <div class="left">
+            <!-- <button><i class="fa-solid fa-table-columns"></i> Columns</button> -->
+<!--           <button class="filter-btn" id="filterBtn"><i class="fa-solid fa-filter"></i> Filters</button>-->
+            <!-- <button><i class="fa-solid fa-border-all"></i> Density</button> -->
+            <a th:href="@{/exportSubmissionPdf}" style="text-decoration: none"><i class="fa-solid fa-file-export"></i> Export</a>
+          </div>
+          <div class="right">
+            <div class="search-wrapper">
+
+              <a href="submission" type="submit" id="refresh" class="ok-btn" style="text-decoration: none">Refresh</a>
+              <br>
+
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchInput" class="search-bar" placeholder="Search Book...">
+            </div>
+          </div>
+        </div>
+
+        
+
+        <table>
+          <thead>
+            <tr >
+              <th >s.No.</th>
+              <th >Student Name</th>
+              <th >Book Name</th>
+              <th >Quantity</th>
+              <th >Subscription Type</th>
+              <th>Paid Amount</th>
+              <th >Book Issue Date</th>
+              <th >Submission Date</th>
+              <th>Invoice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="s , si : ${history}">
+              <td th:text="${si.index+1}">1</td>
+              <td th:text="${s.studentName}">Ankit</td>
+              <td th:text="${s.title}">Teast</td>
+              <td th:text="${s.quantity}">1</td>
+              <td th:text="${s.subscriptionType}">Monthly</td>
+              <td  th:text="${s.quantity} * ${s.amount}">$50</td>
+              <td th:text="${s.getDate()}">22/07/2025</td>
+              <td th:text="${s.getDate().plusDays(9)}">12/11/2025</td>
+              <td>
+                <form method="get" th:action="@{/submission}">
+                <input type="hidden" name="invoiceId" th:value="${s.id}">
+                <button id="invoiceOpen" class="fa-solid fa-file-invoice"></button>
+              </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- ===== INVOICE POPUP ===== -->
+    <div class="invoice-popup" id="invoicePopup" th:classappend = "${invoiceMode} ? 'show':''">
+      <div class="invoice-container">
+        <div class="invoice-header">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" alt="Logo" />
+          <h2>LIBRARY MANAGEMENT SYSTEM</h2>
+          <p>Invoice</p>
+        </div>
+
+        <div class="invoice-title">
+          <h3>Invoice</h3>
+          <span>Date: <span th:text="${currentDate}">November 13, 2026</span></span>
+        </div>
+        <hr />
+
+        <!-- BOOK INFO -->
+        <div class="section">
+          <h4>Book Information</h4>
+          <div class="info-grid">
+            <p><span>Book Name:</span> <span th:text="${bookName}"> Java </span> </p>
+            <p><span>Book Quantity:</span> <span th:text="${quantity}"> 1 </span> </p>
+            <p><span>Issue Date:</span> <span th:text="${IssueDate}"> 22/07/2025 </span> </p>
+            <p><span>Submission Date:</span> <span th:text="${submissionDate}"> 12/11/2025 </span> </p>
+            <p><span>Subscription Type:</span> <span th:text="${subscriptionType}"> Monthly </span> </p>
+          </div>
+        </div>
+
+        <!-- STUDENT INFO -->
+        <div class="section">
+          <h4>Student Information</h4>
+          <div class="info-grid">
+            <p><span>Name:</span> <span th:text="${studentName}"> Sakib </span> </p>
+            <p><span>Phone:</span> <span th:text="${studentPhoneNumber}"> 0456789875 </span> </p>
+            <p><span>Email:</span> <span th:text="${studentEmail}"> sakib@gmail.com </span> </p>
+          </div>
+        </div>
+
+
+        <!-- TOTAL -->
+        <div class="total">
+          <p>Total Amount:  <span th:text="${totalAmount}"> $50.00 </span> </p>
+        </div>
+
+
+         <button class="print-btn" onclick="window.print()">Print Invoice</button>
+        <a href="submission" style="text-decoration: none" class="print-btn">Cancel</a>
+
+      </div> 
+
+    </div>
+
+    <div class="filter-popup" id="filterPopup">
+            <div class="filter-popup-header">
+              <strong>Filter Options</strong>
+              <button id="closePopUp">&times;</button>
+            </div>
+
+            <label for="column">Filter by</label>
+            <select id="column">
+              <option value="title">Title</option>
+              <option value="price">Quantity</option>
+            </select>
+
+            <label for="order">Order</label>
+            <select id="order">
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+
+            <button class="apply-btn" id="applyFilter">Apply Filter</button>
+          </div>
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <script src="/Js/submission.js" defer></script>
+<!--    <script src="/Js/book_management.js" defer></script>-->
+
+</body>
+
+</html>

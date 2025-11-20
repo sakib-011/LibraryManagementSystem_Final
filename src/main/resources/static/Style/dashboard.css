@@ -1,0 +1,423 @@
+/* =============== GLOBAL STYLES =============== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #f4f4f4;
+  color: #222;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+/* =============== CONTAINER =============== */
+.container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+}
+
+/* =============== HEADER BAR =============== */
+.header-bar {
+  color: black;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 1rem 1.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+}
+
+.hamburger {
+  font-size: 1.4rem;
+  color: #ff7b00;
+  cursor: pointer;
+}
+
+.header-bar h1 {
+  font-size: 1.2rem;
+  color: black;
+}
+
+/* =============== SIDEBAR =============== */
+.sidebar {
+  background: #111;
+  color: #fff;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 1rem;
+  border-right: 3px solid #ff7b00;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+  z-index: 25;
+/* 👇 Add these for scrollable sidebar */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #111;
+}
+
+/* Optional: Chrome/Safari scrollbar styling */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: #111;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+/* ===== Dropdown ===== */
+.dropdown {
+  width: 100%;
+}
+
+.dropdown-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown .arrow {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-menu {
+  list-style: none;
+  margin: 0;
+  padding-left: 1.8rem; /* increased from 1.5rem to push right */
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dropdown-menu li {
+  margin-left: 0.5rem; /* 👈 added small left shift */
+}
+
+.dropdown-menu li a {
+  font-size: 0.9rem;
+  color: #ddd;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* spacing between icon and text */
+  padding: 6px 0;
+  transition: color 0.3s ease;
+}
+
+.dropdown-menu li a:hover {
+  color: white;
+}
+
+/* when active (opened) */
+.dropdown.active .dropdown-menu {
+  display: flex;
+}
+
+.dropdown.active .arrow {
+  transform: rotate(180deg);
+}
+
+
+/* hide sidebar on mobile by default */
+@media (max-width: 900px) {
+
+    .header-bar{
+        background-color: black;
+        color: white;
+    }
+
+    .header-bar h1{
+        color: white;
+    }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+}
+
+/* show sidebar when checkbox checked */
+#sidebar-toggle:checked ~ .sidebar {
+  transform: translateX(0);
+}
+
+/* dark overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 15;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* show overlay when checked */
+#sidebar-toggle:checked ~ .overlay {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.brand img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid #ff7b00;
+}
+
+.brand h2 {
+  color: #ff7b00;
+  font-size: 1.4rem;
+}
+
+.brand p {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+/* =============== MENU LINKS =============== */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu a {
+  color: #ddd;
+  text-decoration: none;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.menu a:hover,
+.menu a.active {
+  background: #ff7b00;
+  color: #fff;
+}
+
+/* =============== MAIN CONTENT =============== */
+.main {
+  flex: 1;
+  padding: 2rem;
+  margin-top: 50px; /* space for header bar */
+  margin-left: 250px;
+  overflow-y: auto;
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 900px) {
+  .main {
+    margin-left: 0;
+  }
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  color: #111;
+}
+
+.header p {
+  color: #777;
+  margin-bottom: 1.5rem;
+}
+
+/* =============== STATS CARDS =============== */
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: flex-start;
+}
+
+.info-card {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  border-left: 5px solid #ff7b00;
+  flex: 1 1 calc(25% - 1rem);
+  min-width: 200px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.info-card:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.icon-box {
+  background: #ff7b00;
+  color: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 1.4rem;
+  margin-right: 12px;
+}
+
+.icon-box.books { background: #ff7b00; }
+.icon-box.vendors { background: #222; }
+.icon-box.publications { background: #333; }
+.icon-box.students { background: #ff5a00; }
+
+.info-card .content h2 {
+  font-size: 1.4rem;
+  color: #111;
+}
+.info-card .content p {
+  color: #555;
+  font-size: 0.85rem;
+}
+
+/* responsive cards */
+@media (max-width: 900px) {
+  .info-card { flex: 1 1 calc(50% - 1rem); }
+}
+@media (max-width: 600px) {
+  .info-card { flex: 1 1 100%; }
+}
+
+/* =============== MINI CARDS =============== */
+.mini-cards-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.mini-card {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  border-left: 5px solid #ff7b00;
+  flex: 1 1 calc(25% - 1rem);
+  min-width: 180px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.mini-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.mini-card .icon-box {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  margin-right: 10px;
+  background: #ff7b00;
+  color: #fff;
+}
+
+.mini-card .icon-box.books { background: #ff7b00; }
+.mini-card .icon-box.students { background: #222; }
+.mini-card .icon-box.vendors { background: #333; }
+.mini-card .icon-box.earnings { background: #ff5a00; }
+
+.mini-card .content h3 {
+  font-size: 1.1rem;
+  color: #111;
+  margin: 0;
+}
+.mini-card .content p {
+  font-size: 0.8rem;
+  color: #555;
+  margin: 0;
+}
+
+/* responsive mini cards */
+@media (max-width: 900px) {
+  .mini-card { flex: 1 1 calc(50% - 1rem); }
+}
+@media (max-width: 600px) {
+  .mini-card { flex: 1 1 100%; }
+}
+
+/* =============== DASHBOARD GRID =============== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+.chart-box, .popular {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.chart-placeholder {
+  background: repeating-linear-gradient(-45deg,#f0f0f0,#f0f0f0 10px,#fff 10px,#fff 20px);
+  border-radius: 10px;
+  text-align: center;
+  padding: 2rem;
+  color: #999;
+  font-size: 1rem;
+}
+
+.popular ul {
+  list-style: none;
+}
+.popular li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  color: #555;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb {
+  background: #ff7b00;
+  border-radius: 10px;
+}
