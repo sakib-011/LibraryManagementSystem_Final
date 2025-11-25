@@ -45,9 +45,9 @@ public class AllotmentHistoryExportController {
             doc.open();
 
             doc.add(new Paragraph("Book Allotment History List", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Color.BLUE)));
-            doc.add(new Paragraph(" ")); // empty line
+            doc.add(new Paragraph(" "));
 
-            PdfPTable table = new PdfPTable(7); // columns: S.No, Name, Title, Author, Publisher, Qty
+            PdfPTable table = new PdfPTable(7);
 
             // Table Header
             String[] headers = {"S.No","Student Name", "Student Email", "Book Name", "Qty", "amount", "Issue Date"};
@@ -57,7 +57,7 @@ public class AllotmentHistoryExportController {
                 table.addCell(cell);
             }
 
-            // Table Rows
+
             int count = 1;
             for (BookAllotmentHistory b : bookAllotmentHistories) {
                 table.addCell(String.valueOf(count++));
@@ -72,7 +72,7 @@ public class AllotmentHistoryExportController {
             doc.add(table);
             doc.close();
 
-            // Return PDF as byte array
+
             HttpHeaders headersResp = new HttpHeaders();
             headersResp.setContentType(MediaType.APPLICATION_PDF);
             headersResp.setContentDispositionFormData("attachment", "BookAllotmentHistory.pdf");

@@ -39,11 +39,11 @@ public class VendorExportController {
             doc.open();
 
             doc.add(new Paragraph("Vendors List", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Color.BLUE)));
-            doc.add(new Paragraph(" ")); // empty line
+            doc.add(new Paragraph(" "));
 
-            PdfPTable table = new PdfPTable(6); // columns: S.No, Name, Title, Author, Publisher, Qty
+            PdfPTable table = new PdfPTable(6);
 
-            // Table Header
+
             String[] headers = {"S.No", "Vendor Name", "Company Name", "Email", "Phone Number", "Address"};
             for (String h : headers) {
                 PdfPCell cell = new PdfPCell(new Phrase(h));
@@ -51,7 +51,7 @@ public class VendorExportController {
                 table.addCell(cell);
             }
 
-            // Table Rows
+
             int count = 1;
             for (Vendor v : vendors) {
                 table.addCell(String.valueOf(count++));
@@ -65,7 +65,7 @@ public class VendorExportController {
             doc.add(table);
             doc.close();
 
-            // Return PDF as byte array
+
             HttpHeaders headersResp = new HttpHeaders();
             headersResp.setContentType(MediaType.APPLICATION_PDF);
             headersResp.setContentDispositionFormData("attachment", "vendors.pdf");

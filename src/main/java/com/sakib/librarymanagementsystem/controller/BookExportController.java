@@ -35,11 +35,11 @@ public class BookExportController {
             doc.open();
 
             doc.add(new Paragraph("Book List", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Color.BLUE)));
-            doc.add(new Paragraph(" ")); // empty line
+            doc.add(new Paragraph(" "));
 
-            PdfPTable table = new PdfPTable(6); // columns: S.No, Name, Title, Author, Publisher, Qty
+            PdfPTable table = new PdfPTable(6);
 
-            // Table Header
+
             String[] headers = {"S.No", "Book Name", "Title", "Author", "Publisher", "Qty"};
             for (String h : headers) {
                 PdfPCell cell = new PdfPCell(new Phrase(h));
@@ -47,7 +47,7 @@ public class BookExportController {
                 table.addCell(cell);
             }
 
-            // Table Rows
+
             int count = 1;
             for (Book b : books) {
                 table.addCell(String.valueOf(count++));
@@ -61,7 +61,7 @@ public class BookExportController {
             doc.add(table);
             doc.close();
 
-            // Return PDF as byte array
+
             HttpHeaders headersResp = new HttpHeaders();
             headersResp.setContentType(MediaType.APPLICATION_PDF);
             headersResp.setContentDispositionFormData("attachment", "books.pdf");

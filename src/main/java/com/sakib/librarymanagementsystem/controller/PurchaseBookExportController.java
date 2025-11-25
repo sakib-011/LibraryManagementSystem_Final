@@ -41,17 +41,17 @@ public class PurchaseBookExportController {
             PdfWriter.getInstance(doc, baos);
             doc.open();
 
-            // Title
+
             doc.add(new Paragraph("Purchase Books List", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Color.BLUE)));
             doc.add(new Paragraph(" ")); // empty line
 
-            // Table with columns: S.No, Name, Email, Phone, Identity Type, Registration Date
+
             PdfPTable table = new PdfPTable(6);
             table.setWidthPercentage(100);
             table.setSpacingBefore(10f);
             table.setSpacingAfter(10f);
 
-            // Table Header
+
             String[] headers = {"S.No", "Book Name", "Vendor Name", "Quantity", "Book Price", "Purchase Date"};
             for (String h : headers) {
                 PdfPCell cell = new PdfPCell(new Phrase(h, FontFactory.getFont(FontFactory.HELVETICA_BOLD)));
@@ -60,7 +60,7 @@ public class PurchaseBookExportController {
                 table.addCell(cell);
             }
 
-            // Table Rows
+
             int count = 1;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
             for (PurchaseBook p : purchaseBooks) {
@@ -75,7 +75,7 @@ public class PurchaseBookExportController {
             doc.add(table);
             doc.close();
 
-            // Return PDF as byte array
+
             HttpHeaders headersResp = new HttpHeaders();
             headersResp.setContentType(MediaType.APPLICATION_PDF);
             headersResp.setContentDispositionFormData("attachment", "purchaseBooksInformation.pdf");

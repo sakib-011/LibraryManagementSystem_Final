@@ -40,11 +40,11 @@ public class SubscriptionExportController {
             doc.open();
 
             doc.add(new Paragraph("Subscription List", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Color.BLUE)));
-            doc.add(new Paragraph(" ")); // empty line
+            doc.add(new Paragraph(" "));
 
-            PdfPTable table = new PdfPTable(4); // columns: S.No, Name, Title, Author, Publisher, Qty
+            PdfPTable table = new PdfPTable(4);
 
-            // Table Header
+
             String[] headers = {"S.No", "Subscription Title", "Amount", "Days"};
             for (String h : headers) {
                 PdfPCell cell = new PdfPCell(new Phrase(h));
@@ -52,7 +52,7 @@ public class SubscriptionExportController {
                 table.addCell(cell);
             }
 
-            // Table Rows
+
             int count = 1;
             for (Subscription s : subscriptions) {
                 table.addCell(String.valueOf(count++));
@@ -64,7 +64,7 @@ public class SubscriptionExportController {
             doc.add(table);
             doc.close();
 
-            // Return PDF as byte array
+
             HttpHeaders headersResp = new HttpHeaders();
             headersResp.setContentType(MediaType.APPLICATION_PDF);
             headersResp.setContentDispositionFormData("attachment", "subscription.pdf");
